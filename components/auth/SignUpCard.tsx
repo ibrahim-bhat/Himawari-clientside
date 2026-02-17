@@ -53,9 +53,9 @@ export default function SignUpCard() {
       style={{ border: "1px solid var(--border)" }}
     >
       <div className="flex flex-col items-center gap-6">
-        <Logo className="justify-center" />
+        <Logo />
 
-        <div className="text-center">
+        <div className="w-full text-center">
           <h1 className="text-3xl font-bold text-[#2C8C8C]">Create Account</h1>
           <p className="mt-2 text-sm font-bold text-[#282929]">
             Please sign up to your account.
@@ -67,15 +67,15 @@ export default function SignUpCard() {
           className="flex w-full flex-col gap-4"
         >
           {error && (
-            <p className="rounded-lg bg-red-50 px-3 py-2 text-sm text-red-600">
+            <p className="rounded-lg bg-red-50 px-3 py-2 text-left text-sm text-red-600">
               {error}
             </p>
           )}
 
-          <div>
+          <div className="text-center">
             <label
               htmlFor="name"
-              className="mb-1.5 block text-sm font-medium text-[#282828]"
+              className="mb-1.5 block text-left text-sm font-medium text-[#282828]"
             >
               Name
             </label>
@@ -85,14 +85,15 @@ export default function SignUpCard() {
               placeholder="Enter your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full rounded-lg border border-[var(--border)] bg-[#f9fafb] px-4 py-3 text-sm text-[#171717] placeholder:text-[var(--text-muted)] focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]"
+              className="w-full rounded-lg border bg-[#f9fafb] px-4 py-3 text-left text-sm text-[#171717] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]"
+              style={{ borderColor: "var(--input-border)" }}
             />
           </div>
 
-          <div>
+          <div className="text-left">
             <label
               htmlFor="email"
-              className="mb-1.5 block text-sm font-medium text-[#282828]"
+              className="mb-1.5 block text-left text-sm font-medium text-[#282828]"
             >
               Email
             </label>
@@ -102,14 +103,15 @@ export default function SignUpCard() {
               placeholder="Enter your email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-lg border border-[var(--border)] bg-[#f9fafb] px-4 py-3 text-sm text-[#171717] placeholder:text-[var(--text-muted)] focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]"
+              className="w-full rounded-lg border bg-[#f9fafb] px-4 py-3 text-left text-sm text-[#171717] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]"
+              style={{ borderColor: "var(--input-border)" }}
             />
           </div>
 
-          <div>
+          <div className="text-left">
             <label
               htmlFor="password"
-              className="mb-1.5 block text-sm font-medium text-[#282828]"
+              className="mb-1.5 block text-left text-sm font-medium text-[#282828]"
             >
               Password
             </label>
@@ -119,14 +121,15 @@ export default function SignUpCard() {
               placeholder="Enter your password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full rounded-lg border border-[var(--border)] bg-[#f9fafb] px-4 py-3 text-sm text-[#171717] placeholder:text-[var(--text-muted)] focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]"
+              className="w-full rounded-lg border bg-[#f9fafb] px-4 py-3 text-left text-sm text-[#171717] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]"
+              style={{ borderColor: "var(--input-border)" }}
             />
           </div>
 
-          <div>
+          <div className="text-left">
             <label
               htmlFor="confirmPassword"
-              className="mb-1.5 block text-sm font-medium text-[#282828]"
+              className="mb-1.5 block text-left text-sm font-medium text-[#282828]"
             >
               Confirm Password
             </label>
@@ -136,7 +139,8 @@ export default function SignUpCard() {
               placeholder="Confirm your password"
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full rounded-lg border border-[var(--border)] bg-[#f9fafb] px-4 py-3 text-sm text-[#171717] placeholder:text-[var(--text-muted)] focus:border-[var(--accent)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]"
+              className="w-full rounded-lg border bg-[#f9fafb] px-4 py-3 text-left text-sm text-[#171717] placeholder:text-[var(--text-muted)] focus:outline-none focus:ring-1 focus:ring-[var(--accent)]"
+              style={{ borderColor: "var(--input-border)" }}
             />
           </div>
 
@@ -150,7 +154,7 @@ export default function SignUpCard() {
           </button>
         </form>
 
-        <p className="text-center text-sm text-[var(--text-muted)]">
+        <p className="w-full text-center text-sm text-[var(--text-muted)]">
           Already have an account?{" "}
           <Link
             href="/auth/login"

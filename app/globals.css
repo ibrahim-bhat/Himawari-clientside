@@ -10,7 +10,7 @@
   --card-bg: #ffffff;
 
   /* Primary Brand (Teal from UI) */
-  --accent: #259a9e;
+  --accent: #259A9E;
   --accent-hover: #1f7f83;
 
   /* Text */
@@ -19,8 +19,9 @@
 
   /* Border */
   --border: #e5e7eb;
+  /* Input field stroke - light, subtle */
+  --input-border: #e5e7eb;
 }
-
 
 @theme inline {
   --color-background: var(--background);
