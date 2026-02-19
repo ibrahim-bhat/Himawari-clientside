@@ -9,9 +9,9 @@ export default function PageHeader() {
           Monitor your mental health platform&apos;s performance in real-time.
         </p>
       </div>
-      <button className="inline-flex items-center gap-2 rounded-lg border border-[#e5e7eb] bg-white px-4 py-2 text-sm font-medium text-[#374151] shadow-sm">
-        <span>⭳</span>
-        <span>Export</span>
+      <button className=" mr-20 inline-flex items-center gap-2 rounded-lg border border-[hsl(220,19%,54%)] bg-white px-4 py-2 text-sm font-medium text-[#374151] shadow-sm">
+        <span>⭱</span>
+        <span>export</span>
       </button>
     </div>
   );

@@ -1,35 +1,57 @@
-type ChartProps = {
-  highlightLabel?: string;
-};
-
-export default function Chart({ highlightLabel = "Feb" }: ChartProps) {
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-  const heights = [40, 96, 24, 18, 22, 20, 16, 14, 12, 10, 8, 6];
+export default function Chart() {
+  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const yAxisLabels = ["10k+", "8000", "6000", "4000", "2000", "0"];
 
   return (
-    <div className="flex h-64 flex-col justify-between">
-      <div className="flex flex-1 items-end gap-4 border-b border-[#e5e7eb] pb-6">
-        {months.map((month, index) => {
-          const isHighlight = month === highlightLabel;
-          return (
-            <div key={month} className="flex flex-1 flex-col items-center gap-2">
-              <div
-                className={`w-6 rounded-full bg-[#e5f6f7] ${isHighlight ? "bg-[#2a9ba0]" : ""}`}
-                style={{ height: `${heights[index]}px` }}
-              />
-            </div>
-          );
-        })}
-      </div>
-      <div className="mt-4 flex justify-between text-xs text-[#9ca3af]">
-        {months.map((month) => (
-          <span
-            key={month}
-            className={month === highlightLabel ? "font-medium text-[#111827]" : ""}
-          >
-            {month}
-          </span>
+    <div className="flex h-100 w-full gap-4">
+      {/* Y-axis Labels */}
+      <div className="flex flex-col justify-between pb-8 text-xs font-medium text-[#9ca3af]">
+        {yAxisLabels.map((label) => (
+          <span key={label}>{label}</span>
         ))}
+      </div>
+
+      {/* Chart Area */}
+      <div className="relative flex flex-1 flex-col justify-between">
+        {/* Grid Lines */}
+        <div className="absolute inset-x-0 bottom-8 top-0 flex flex-col justify-between px-2">
+          {[...Array(6)].map((_, i) => (
+            <div
+              key={i}
+              className="w-full border-b border-dashed border-[#e5e7eb]"
+            />
+          ))}
+        </div>
+
+        {/* Bars Container */}
+        <div className="relative flex h-full flex-1 items-end justify-around px-2 pb-8">
+          {days.map((day) => {
+            let height = "0%";
+            if (day === "Mon") height = "25%";
+            if (day === "Tue") height = "55%";
+
+            return (
+              <div
+                key={day}
+                className="group relative flex h-full w-8 flex-col items-center justify-end"
+              >
+                <div
+                  className="w-4 rounded-t-sm bg-[#2aa7a5] transition-all duration-300"
+                  style={{ height: height }}
+                />
+              </div>
+            );
+          })}
+        </div>
+
+        {/* X-axis Labels */}
+        <div className="flex justify-around pt-2 text-xs font-medium text-[#9ca3af]">
+          {days.map((day) => (
+            <span key={day} className="w-8 text-center">
+              {day}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   );

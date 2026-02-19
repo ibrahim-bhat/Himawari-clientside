@@ -5,20 +5,20 @@ import {
   DashboardIcon,
   HeadsetIcon,
   SettingsIcon,
-  StethoscopeIcon,
   UsersIcon,
-  LogoutIcon
+  LogoutIcon,
+  BrainIcon,
+  StethoscopeIcon
 
 } from "../ui/Icons";
-import { LogOutIcon } from "lucide-react";
-//import { LogOut } from "lucide-react";
+
 
 const navItems = [
   { label: "Dashboard", icon: DashboardIcon },
   { label: "Users", icon: UsersIcon },
   { label: "Listener", icon: HeadsetIcon},
-  { label: "Counselors", icon: HeadsetIcon },
-  { label: "Psychiatrists", icon: StethoscopeIcon },
+  { label: "Counselors", icon: BrainIcon},
+  { label: "Psychiatrists", icon: StethoscopeIcon},
   { label: "Bookings", icon: CalendarIcon },
   { label: "Settings", icon: SettingsIcon },
 ];

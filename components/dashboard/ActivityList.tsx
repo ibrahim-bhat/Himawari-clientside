@@ -1,4 +1,5 @@
 import Card from "../ui/Card";
+import { FileTextIcon } from "../ui/Icons";
 
 const activities = [
   {
@@ -31,34 +32,38 @@ const activities = [
 
 export default function ActivityList() {
   return (
-    <Card className="h-full">
-      <div className="flex items-center justify-between border-b border-[#e5e7eb] px-6 py-4">
-        <div className="flex items-center gap-2">
-          <span className="text-sm font-semibold uppercase tracking-wide text-[#6b7280]">
-            Recent Activities
-          </span>
-        </div>
-        <span className="rounded-full bg-[#e5f6f7] px-2 py-0.5 text-xs font-medium text-[#259a9e]">
-          9
-        </span>
+    <Card className="relative mr-15 h-full min-h-[380px] flex flex-col min-w-[350px]">
+      <div className="absolute right-2 top-1 flex h-7 w-7 items-center justify-center rounded-lg bg-[#2aa7a5] text-xs font-bold text-white">
+        9
       </div>
-      <ul className="space-y-4 px-6 py-4 text-sm">
-        {activities.map((activity) => (
-          <li key={activity.title} className="flex items-start justify-between">
-            <div>
-              <p className="font-semibold text-[#111827]">{activity.title}</p>
-              <p className="mt-1 text-xs text-[#6b7280]">
-                {activity.description}
-              </p>
-            </div>
-            <span className="ml-4 shrink-0 text-xs text-[#9ca3af]">
-              {activity.time}
-            </span>
-          </li>
-        ))}
-      </ul>
-      <div className="border-t border-[#e5e7eb] px-6 py-3 text-right text-xs font-medium text-[#259a9e]">
-        View All
+      <div className="flex items-center gap-3 border-b border-[#e5e7eb] px-6 py-5">
+        <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-[#e5f6f7] text-[#259a9e]">
+          <FileTextIcon className="h-5 w-5" />
+        </div>
+        <h2 className="text-xl font-bold text-[#111827]">Recent Activities</h2>
+      </div>
+      <div className="flex-1 overflow-auto px-6 py-6">
+        <ul className="space-y-6">
+          {activities.map((activity, index) => (
+            <li key={index} className="flex gap-3">
+              <div className="mt-2 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-[#111827]" />
+              <div className="flex-1 space-y-1">
+                <div className="flex items-center justify-between">
+                  <p className="font-bold text-[#111827]">{activity.title}</p>
+                  <span className="text-xs text-[#9ca3af]">{activity.time}</span>
+                </div>
+                <p className="text-sm text-[#6b7280]">
+                  {activity.description}
+                </p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="border-t border-[#e5e7eb] px-6 py-4 text-right">
+        <button className="text-sm font-semibold text-[#2aa7a5] hover:underline">
+          View All
+        </button>
       </div>
     </Card>
   );
