@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import Navbar from "@/components/landing/Navbar";
 import Footer from "@/components/landing/Footer";
 import { StarIcon, PhoneIcon, MessageIcon } from "@/components/ui/Icons";
@@ -54,26 +53,17 @@ function ProfCard({ p }: { p: Professional }) {
         )}
         <p className="mt-1 text-xs text-[#9ca3af]">{p.location}</p>
         <div className="mt-4 flex flex-wrap gap-2">
-          <a
-            href={`tel:${p.phone}`}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-[#e5e7eb] px-3 py-2 text-xs font-semibold text-[#259A9E] transition-colors hover:border-[#259A9E] hover:bg-[#e8f5f5]"
-          >
+          <span className="inline-flex cursor-default items-center gap-1.5 rounded-lg border border-[#e5e7eb] px-3 py-2 text-xs font-semibold text-[#259A9E]">
             <PhoneIcon className="h-3.5 w-3.5" />
             Call
-          </a>
-          <Link
-            href={`/bookings?chat=${p.id}`}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-[#e5e7eb] px-3 py-2 text-xs font-semibold text-[#259A9E] transition-colors hover:border-[#259A9E] hover:bg-[#e8f5f5]"
-          >
+          </span>
+          <span className="inline-flex cursor-default items-center gap-1.5 rounded-lg border border-[#e5e7eb] px-3 py-2 text-xs font-semibold text-[#259A9E]">
             <MessageIcon className="h-3.5 w-3.5" />
             Chat
-          </Link>
-          <Link
-            href="/auth/login"
-            className="rounded-lg bg-[#259A9E] px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#1e7a7d]"
-          >
+          </span>
+          <span className="cursor-default rounded-lg bg-[#259A9E] px-3 py-2 text-xs font-semibold text-white">
             Book Now
-          </Link>
+          </span>
         </div>
       </div>
     </div>

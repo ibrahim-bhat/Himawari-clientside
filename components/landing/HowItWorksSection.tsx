@@ -45,7 +45,7 @@ export default function HowItWorksSection() {
                 <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 text-white">
                   <Icon className="h-6 w-6" />
                 </div>
-                <span className="text-3xl font-bold text-white/25">{number}</span>
+                <span className="text-3xl font-bold text-white">{number}</span>
                 <h3 className="mt-2 text-base font-bold text-white">{title}</h3>
                 <p className="mt-2 text-sm leading-6 text-white/75">{description}</p>
               </div>
