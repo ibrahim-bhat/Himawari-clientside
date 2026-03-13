@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import DashboardLayout from "@/components/layout/DashboardLayout";
 import Card from "@/components/ui/Card";
 import Avatar from "@/components/ui/Avatar";
@@ -18,147 +18,45 @@ import {
   ChevronDownIcon
 } from "@/components/ui/Icons";
 import { useState, useMemo } from "react";
+import { getUserById, updateUserStatus } from "@/lib/services/userService";
+import { getBookingsByUserId, getCallChatHistoryByUserId } from "@/lib/services/bookingService";
+import { getUserPayments } from "@/lib/services/paymentService";
 
-const users = [
-  { id: 1, name: "Ayaan Khan", email: "ayaan.khan@maildemo.com", status: "Active", joiningDate: "12 Jan 2025", image: "/pic.png", phone: "+91 1234567890", userId: "#USR-11231" },
-  { id: 2, name: "Zara Ahmed", email: "zara.ahmed@maildemo.com", status: "Blocked", joiningDate: "25 Jan 2025", image: "/pic.png", phone: "+91 1234567890", userId: "#USR-11232" },
-  { id: 3, name: "Hamza Malik", email: "hamza.malik@maildemo.com", status: "Active", joiningDate: "3 Feb 2025", image: "/pic.png", phone: "+91 1234567890", userId: "#USR-11233" },
-  { id: 4, name: "Noor Fatima", email: "noor.fatima@maildemo.com", status: "Active", joiningDate: "18 Dec 2024", image: "/pic.png", phone: "+91 1234567890", userId: "#USR-11234" },
-  { id: 5, name: "Ali Raza", email: "ali.raza@maildemo.com", status: "Blocked", joiningDate: "6 Feb 2025", image: "/pic.png", phone: "+91 1234567890", userId: "#USR-11235" },
-  { id: 6, name: "Mustafa Sheikh", email: "mustafa@maildemo.com", status: "Blocked", joiningDate: "8 Feb 2025", image: "/pic.png", phone: "+91 1234567890", userId: "#USR-11236" },
-];
-
-const bookings = [
-  {
-    id: 1,
-    professional: { name: "Dr. Adeel Rashid", role: "Psychiatrist", image: "/pic.png" },
-    date: "May 14, 2025",
-    time: "10:30AM - 11:15AM",
-    type: "Video Call",
-    duration: "45 min",
-    status: "Completed",
-  },
-  {
-    id: 2,
-    professional: { name: "Dr. Sana Mir", role: "Psychiatrist", image: "/pic.png" },
-    date: "May 10, 2025",
-    time: "02:00PM - 03:00PM",
-    type: "Audio Call",
-    duration: "1 hr",
-    status: "Cancelled",
-  },
-  {
-    id: 3,
-    professional: { name: "Dr. Farhan Malik", role: "Counselor", image: "/pic.png" },
-    date: "May 03, 2025",
-    time: "09:00PM - 09:45AM",
-    type: "Chat Session",
-    duration: "45 min",
-    status: "Completed",
-  },
-  {
-    id: 4,
-    professional: { name: "Dr. Hina Shah", role: "Counselor", image: "/pic.png" },
-    date: "May 14, 2025",
-    time: "10:30AM - 11:15AM",
-    type: "Audio Call",
-    duration: "45 min",
-    status: "Completed",
-  },
-  {
-    id: 5,
-    professional: { name: "Dr. Ali Raza", role: "Listener", image: "/pic.png" },
-    date: "Apr 28, 2025",
-    time: "11:00AM - 11:30AM",
-    type: "Chat Session",
-    duration: "30 min",
-    status: "Completed",
-  },
-  {
-    id: 6,
-    professional: { name: "Dr. Zoya Ahmed", role: "Listener", image: "/pic.png" },
-    date: "Apr 14, 2025",
-    time: "12:00AM - 12:30AM",
-    type: "Video Call",
-    duration: "30 min",
-    status: "Completed",
-  },
-];
-
-const callChatHistory = [
-  {
-    id: 1,
-    professional: { name: "Dr. Adeel Rashid", role: "Psychiatrist", image: "/pic.png" },
-    date: "May 14, 2025",
-    time: "10:30AM - 11:15AM",
-    mode: "Video Call",
-    notes: "User requested to continue sessions with the same counselor for better",
-  },
-  {
-    id: 2,
-    professional: { name: "Dr. Sana Mir", role: "Psychiatrist", image: "/pic.png" },
-    date: "May 10, 2025",
-    time: "02:00PM - 03:00PM",
-    mode: "Audio Call",
-    notes: "Follow-up session required within 7 days for medication review",
-  },
-  {
-    id: 3,
-    professional: { name: "Dr. Farhan Malik", role: "Counselor", image: "/pic.png" },
-    date: "May 03, 2025",
-    time: "09:00PM - 09:45AM",
-    mode: "Chat Session",
-    notes: "User expressed mild distress during chat, no escalation required. Monitor",
-  },
-  {
-    id: 4,
-    professional: { name: "Dr. Hina Shah", role: "Counselor", image: "/pic.png" },
-    date: "May 14, 2025",
-    time: "10:30AM - 11:15AM",
-    mode: "Audio Call",
-    notes: "User requested evening time slots for future counseling sessions due to work",
-  },
-  {
-    id: 5,
-    professional: { name: "Dr. Ali Raza", role: "Listener", image: "/pic.png" },
-    date: "Apr 28, 2025",
-    time: "11:00AM - 11:30AM",
-    mode: "Chat Session",
-    notes: "Prescription update pending. Follow-up consultation required before",
-  },
-  {
-    id: 6,
-    professional: { name: "Dr. Zoya Ahmed", role: "Listener", image: "/pic.png" },
-    date: "Apr 14, 2025",
-    time: "12:00AM - 12:30AM",
-    mode: "Chat Session",
-    notes: "User considering therapist change, requested profile details of alternate",
-  },
-];
-
-const billingHistory = [
-  { id: 1, transactionId: "TXN-9F3K2BLIQ7", date: "May 10, 2025", amount: "₹4,000", method: "Mastercard", status: "Paid" },
-  { id: 2, transactionId: "TXN-4M9Z72P6XA", date: "May 03, 2025", amount: "₹3,560", method: "Credit card", status: "Pending" },
-  { id: 3, transactionId: "TXN-7Q2L19V3N8", date: "May 14, 2025", amount: "₹8,304", method: "UPI", status: "Paid" },
-  { id: 4, transactionId: "TXN-1X5R84K9TY", date: "Apr 28, 2025", amount: "₹4,620", method: "Credit card", status: "Issue" },
-  { id: 5, transactionId: "TXN-6P0W37D2CZ", date: "Apr 14, 2025", amount: "₹10,050", method: "G-Pay", status: "Refunded" },
-];
+function bookingTypeLabel(type: string) {
+  if (type === "video") return "Video Call";
+  if (type === "voice") return "Audio Call";
+  return "Chat Session";
+}
 
 export default function UserDetailPage() {
   const { id } = useParams();
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState("Booking History");
 
-  // Find user by ID
-  const currentUser = useMemo(() => {
-    const userId = Number(id);
-    return users.find(u => u.id === userId) || users[2]; // Default to Hamza if not found
-  }, [id]);
+  const currentUser = useMemo(() => getUserById(Number(id)), [id]);
+  const bookings = useMemo(() => (currentUser ? getBookingsByUserId(currentUser.id) : []), [currentUser]);
+  const callChatHistory = useMemo(() => (currentUser ? getCallChatHistoryByUserId(currentUser.id) : []), [currentUser]);
+  const billingHistory = useMemo(() => (currentUser ? getUserPayments(currentUser.id) : []), [currentUser]);
+
+  if (!currentUser) {
+    return (
+      <DashboardLayout>
+        <div className="p-8 text-center text-gray-500">User not found.</div>
+      </DashboardLayout>
+    );
+  }
+
+  const handleBlockUnblock = () => {
+    const newStatus = currentUser.status === "Active" ? "Blocked" : "Active";
+    updateUserStatus(currentUser.id, newStatus);
+    router.refresh();
+  };
 
   return (
     <DashboardLayout>
       <div className="space-y-6">
         {/* Search Bar matching the mockup */}
-        <div className="relative max-w-md">
+        <div className="relative max-w-[200]">
           <SearchIcon className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
           <input
             type="text"
@@ -185,11 +83,17 @@ export default function UserDetailPage() {
                 </div>
               </div>
             </div>
-            <div className="flex gap-3">
-              <button className="rounded-lg border border-[#259A9E] px-4 py-2 text-sm font-semibold text-[#259A9E] hover:bg-[#259A9E]/5">
+            <div className="flex flex-wrap gap-3">
+              <button
+                onClick={handleBlockUnblock}
+                className="min-h-[44px] rounded-lg border border-red-500 px-4 py-2 text-sm font-semibold text-red-600 hover:bg-red-50"
+              >
+                {currentUser.status === "Active" ? "Block User" : "Unblock User"}
+              </button>
+              <button className="min-h-[44px] rounded-lg border border-[#259A9E] px-4 py-2 text-sm font-semibold text-[#259A9E] hover:bg-[#259A9E]/5">
                 Edit Profile
               </button>
-              <button className="flex items-center gap-2 rounded-lg bg-[#259A9E] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1e7d80]">
+              <button className="min-h-[44px] flex items-center gap-2 rounded-lg bg-[#259A9E] px-4 py-2 text-sm font-semibold text-white hover:bg-[#1e7d80]">
                 <span>Send Notification</span>
                 <SendIcon className="h-4 w-4" />
               </button>
@@ -204,8 +108,8 @@ export default function UserDetailPage() {
               <CalendarIcon className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Total Bookings</p>
-              <p className="text-xl font-bold text-gray-900">46</p>
+              <p className="text-xs text-[#6b7280]">Total Bookings</p>
+              <p className="text-xl font-bold text-[#111827]">46</p>
             </div>
           </Card>
           <Card className="flex flex-col gap-2 p-5 h-[140px]">
@@ -215,8 +119,8 @@ export default function UserDetailPage() {
               </div>
             </div>
             <div>
-              <p className="text-xs text-gray-500">Completed Sessions</p>
-              <p className="text-xl font-bold text-gray-900">45</p>
+              <p className="text-xs text-[#6b7280]">Completed Sessions</p>
+              <p className="text-xl font-bold text-[#111827]">45</p>
             </div>
           </Card>
           <Card className="flex flex-col gap-2 p-5 h-[140px]">
@@ -224,8 +128,8 @@ export default function UserDetailPage() {
               <DollarIcon className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Total Spent</p>
-              <p className="text-xl font-bold text-gray-900">₹1,82,000</p>
+              <p className="text-xs text-[#6b7280]">Total Spent</p>
+              <p className="text-xl font-bold text-[#111827]">₹1,82,000</p>
             </div>
           </Card>
           <Card className="flex flex-col gap-2 p-5 h-[140px]">
@@ -233,20 +137,20 @@ export default function UserDetailPage() {
               <ClockIcon className="h-5 w-5" />
             </div>
             <div>
-              <p className="text-xs text-gray-500">Last Activity</p>
-              <p className="text-xl font-bold text-gray-900">2hrs ago</p>
+              <p className="text-xs text-[#6b7280]">Last Activity</p>
+              <p className="text-xl font-bold text-[#111827]">2hrs ago</p>
             </div>
           </Card>
         </div>
 
         {/* History Tabs and Table */}
-        <div className="rounded-2xl border border-[#259A9E]/20 bg-white overflow-hidden">
-          <div className="flex border-b border-[#259A9E]/20 px-6">
+        <div className="rounded-2xl border border-[#259A9E] bg-white shadow-[0px_4px_20px_rgba(0,0,0,0.05)] overflow-hidden">
+          <div className="flex border-b border-[#259A9E] px-6">
             {["Booking History", "Call/Chat History", "Billing & Invoice"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
-                className={`px-6 py-4 text-sm font-semibold transition-colors relative ${activeTab === tab ? "text-[#259A9E]" : "text-gray-400 hover:text-gray-600"
+                className={`px-6 py-4 text-sm font-semibold transition-colors relative ${activeTab === tab ? "text-[#259A9E]" : "text-[#6b7280] hover:text-[#111827]"
                   }`}
               >
                 {tab}
@@ -422,10 +326,10 @@ export default function UserDetailPage() {
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2 text-sm text-gray-600">
-                          {booking.type === "Video Call" && <VideoIcon className="h-4 w-4" />}
-                          {booking.type === "Audio Call" && <MicIcon className="h-4 w-4" />}
-                          {booking.type === "Chat Session" && <FileTextIcon className="h-4 w-4" />}
-                          <span>{booking.type}</span>
+                          {booking.type === "video" && <VideoIcon className="h-4 w-4" />}
+                          {booking.type === "voice" && <MicIcon className="h-4 w-4" />}
+                          {booking.type === "chat" && <FileTextIcon className="h-4 w-4" />}
+                          <span>{bookingTypeLabel(booking.type)}</span>
                         </div>
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-600">{booking.duration}</td>

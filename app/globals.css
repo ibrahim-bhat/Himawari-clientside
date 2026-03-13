@@ -1,26 +1,14 @@
 @import "tailwindcss";
 
 :root {
-  /* Base */
-  --background: #f4f6f8;
-  --foreground: #1f2937;
-
-  /* Login / Card */
-  --login-bg: #f4f6f8;
-  --card-bg: #ffffff;
-
-  /* Primary Brand (Teal from UI) */
-  --accent: #259a9e;
-  --accent-hover: #1f7f83;
-
-  /* Text */
+  --background: #ffffff;
+  --foreground: #111827;
+  --accent: #259A9E;
+  --accent-hover: #1e7a7d;
+  --accent-light: #e8f5f5;
   --text-primary: #111827;
   --text-muted: #6b7280;
-
-  /* Border */
   --border: #e5e7eb;
-  /* Input field stroke - light, subtle */
-  --input-border: #e5e7eb;
 }
 
 @theme inline {
@@ -29,8 +17,24 @@
   --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: #ffffff;
+  color: #111827;
   font-family: var(--font-sans);
+}
+
+.section-wrap {
+  margin-inline: auto;
+  max-width: 1200px;
+  padding-inline: 24px;
+}
+
+@media (min-width: 768px) {
+  .section-wrap {
+    padding-inline: 32px;
+  }
 }

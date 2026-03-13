@@ -1,58 +1,62 @@
-export default function Chart() {
-  const days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-  const yAxisLabels = ["10k+", "8000", "6000", "4000", "2000", "0"];
+"use client";
+
+import type { ChartDataPoint } from "@/types";
+
+interface ChartProps {
+  data?: ChartDataPoint[];
+}
+
+export default function Chart({ data: dataProp }: ChartProps) {
+  const labels = dataProp?.map((d) => d.label) ?? ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const values = dataProp?.map((d) => d.value) ?? [2000, 6000, 4500, 8000, 5500, 7000, 4000];
+  const maxVal = Math.max(...values, 1);
+  const yAxisItems = [
+    { label: `${Math.ceil(maxVal / 1000)}k+`, highlight: false },
+    { label: String(Math.round((maxVal * 0.8) / 100) * 100), highlight: false },
+    { label: String(Math.round((maxVal * 0.6) / 100) * 100), highlight: false },
+    { label: String(Math.round((maxVal * 0.45) / 100) * 100), highlight: true },
+    { label: "0", highlight: false },
+  ];
+
+  const barData = labels.map((label, i) => ({ label, height: `${(values[i]! / maxVal) * 100}%` }));
 
   return (
-    <div className="flex h-100 w-full gap-4">
-      {/* Y-axis Labels */}
-      <div className="flex flex-col justify-between pb-8 text-xs font-medium text-[#9ca3af]">
-        {yAxisLabels.map((label) => (
-          <span key={label}>{label}</span>
-        ))}
-      </div>
-
-      {/* Chart Area */}
-      <div className="relative flex flex-1 flex-col justify-between">
-        {/* Grid Lines */}
-        <div className="absolute inset-x-0 bottom-8 top-0 flex flex-col justify-between px-2">
-          {[...Array(6)].map((_, i) => (
-            <div
-              key={i}
-              className="w-full border-b border-dashed border-[#e5e7eb]"
-            />
+    <div className="relative h-[420px] w-full flex flex-col pt-8">
+      <div className="relative flex-1 flex">
+        <div className="absolute inset-4 flex flex-col justify-between">
+          {yAxisItems.map((item) => (
+            <div key={item.label} className="relative flex items-center w-full group h-0">
+              <span className={`absolute -left-12 text-[11px] font-medium w-10 text-right pr-3 ${item.highlight ? "text-[#259a9e]" : "text-gray-400"}`}>
+                {item.label}
+              </span>
+              <div className="absolute left-0 h-1.5 w-1.5 rounded-full bg-gray-200 -translate-x-1/2 z-10" />
+              <div className={`flex-1 h-[1px] ${item.highlight ? "border-t border-dashed border-[#2aa7a5]/60" : "bg-gray-100"}`} />
+            </div>
           ))}
         </div>
-
-        {/* Bars Container */}
-        <div className="relative flex h-full flex-1 items-end justify-around px-2 pb-8">
-          {days.map((day) => {
-            let height = "0%";
-            if (day === "Mon") height = "25%";
-            if (day === "Tue") height = "55%";
-
+        <div className="relative flex-1 flex items-end justify-between px-4 ml-6">
+          <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-gray-100" />
+          {labels.map((day) => {
+            const bar = barData.find((d) => d.label === day);
             return (
-              <div
-                key={day}
-                className="group relative flex h-full w-8 flex-col items-center justify-end"
-              >
-                <div
-                  className="w-4 rounded-t-sm bg-[#2aa7a5] transition-all duration-300"
-                  style={{ height: height }}
-                />
+              <div key={day} className="relative flex-1 flex flex-col items-center h-full justify-end min-w-0">
+                {bar && (
+                  <div className="w-2.5 bg-[#259a9e] rounded-sm transition-all duration-700 flex-shrink-0" style={{ height: bar.height }} />
+                )}
+                <div className="absolute bottom-0 h-1.5 w-1.5 rounded-full bg-gray-200 translate-y-1/2 z-10" />
               </div>
             );
           })}
         </div>
-
-        {/* X-axis Labels */}
-        <div className="flex justify-around pt-2 text-xs font-medium text-[#9ca3af]">
-          {days.map((day) => (
-            <span key={day} className="w-8 text-center">
-              {day}
-            </span>
-          ))}
-        </div>
       </div>
+      <div className="flex ml-[40px] justify-between text-[11px] font-medium text-gray-400 pt-6">
+        {labels.map((label) => (
+          <span key={label} className="flex-1 text-center font-medium truncate">
+            {label}
+          </span>
+        ))}
+      </div>
+      <div className="ml-[24px] h-[1px] bg-gray-100" />
     </div>
   );
 }

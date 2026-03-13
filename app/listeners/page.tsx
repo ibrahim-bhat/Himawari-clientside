@@ -1,12 +1,12 @@
-import LoginCard from "@/components/auth/LoginCard";
+"use client";
+
+import DashboardLayout from "@/components/layout/DashboardLayout";
+import ProfessionalListPage from "@/components/professionals/ProfessionalListPage";
 
 export default function ListenersPage() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center p-4"
-      style={{ backgroundColor: "var(--login-bg)" }}
-    >
-      <LoginCard />
-    </div>
+    <DashboardLayout>
+      <ProfessionalListPage role="listener" />
+    </DashboardLayout>
   );
 }
