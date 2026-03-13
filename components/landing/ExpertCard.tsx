@@ -1,9 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import Card from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
 import { StarIcon, PhoneIcon, MessageIcon } from "@/components/ui/Icons";
 import type { Professional } from "@/types";
 
@@ -24,7 +22,7 @@ interface ExpertCardProps {
 }
 
 export default function ExpertCard({ professional }: ExpertCardProps) {
-  const { id, name, role, rating, reviews, image, phone, specialties, location } = professional;
+  const { id, name, role, rating, reviews, image, specialties, location } = professional;
   const roleLabel = roleLabels[role] ?? role;
   const roleColor = roleColors[role] ?? "text-[#259A9E]";
 
@@ -61,20 +59,17 @@ export default function ExpertCard({ professional }: ExpertCardProps) {
           {location}
         </p>
         <div className="mt-5 flex flex-wrap gap-2">
-          <a href={`tel:${phone || ""}`} className="inline-flex items-center gap-1.5 rounded-full border border-[#d4e3de] bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.12em] text-[#188F8C] transition-colors hover:bg-[#f4faf8]">
+          <span className="pointer-events-none select-none inline-flex cursor-default items-center gap-1.5 rounded-full border border-[#d4e3de] bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.12em] text-[#188F8C]">
             <PhoneIcon className="h-3.5 w-3.5" />
             Call
-          </a>
-          <Link
-            href={`/bookings?chat=${id}`}
-            className="inline-flex items-center gap-1.5 rounded-full border border-[#d4e3de] bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.12em] text-[#188F8C] transition-colors hover:bg-[#f4faf8]"
-          >
+          </span>
+          <span className="pointer-events-none select-none inline-flex cursor-default items-center gap-1.5 rounded-full border border-[#d4e3de] bg-white px-4 py-2.5 text-xs font-semibold uppercase tracking-[0.12em] text-[#188F8C]">
             <MessageIcon className="h-3.5 w-3.5" />
             Chat
-          </Link>
-          <Link href="/auth/login">
-            <Button className="min-h-[42px] px-5 text-xs uppercase tracking-[0.14em]">Book Now</Button>
-          </Link>
+          </span>
+          <span className="pointer-events-none select-none cursor-default rounded-full bg-[#188F8C] px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.14em] text-white">
+            Book Now
+          </span>
         </div>
       </div>
     </Card>

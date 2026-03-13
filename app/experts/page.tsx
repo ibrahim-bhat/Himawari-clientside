@@ -53,15 +53,15 @@ function ProfCard({ p }: { p: Professional }) {
         )}
         <p className="mt-1 text-xs text-[#9ca3af]">{p.location}</p>
         <div className="mt-4 flex flex-wrap gap-2">
-          <span className="inline-flex cursor-default items-center gap-1.5 rounded-lg border border-[#e5e7eb] px-3 py-2 text-xs font-semibold text-[#259A9E]">
+          <span className="pointer-events-none select-none inline-flex cursor-default items-center gap-1.5 rounded-lg border border-[#e5e7eb] px-3 py-2 text-xs font-semibold text-[#259A9E]">
             <PhoneIcon className="h-3.5 w-3.5" />
             Call
           </span>
-          <span className="inline-flex cursor-default items-center gap-1.5 rounded-lg border border-[#e5e7eb] px-3 py-2 text-xs font-semibold text-[#259A9E]">
+          <span className="pointer-events-none select-none inline-flex cursor-default items-center gap-1.5 rounded-lg border border-[#e5e7eb] px-3 py-2 text-xs font-semibold text-[#259A9E]">
             <MessageIcon className="h-3.5 w-3.5" />
             Chat
           </span>
-          <span className="cursor-default rounded-lg bg-[#259A9E] px-3 py-2 text-xs font-semibold text-white">
+          <span className="pointer-events-none select-none cursor-default rounded-lg bg-[#259A9E] px-3 py-2 text-xs font-semibold text-white">
             Book Now
           </span>
         </div>
