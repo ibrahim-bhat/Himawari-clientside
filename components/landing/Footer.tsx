@@ -1,6 +1,6 @@
 "use client";
 
-import Logo from "@/components/ui/Logo";
+import Image from "next/image";
 
 const companyLinks = ["About Us", "Himawari", "Doctors", "Blog"];
 const supportLinks = ["Online Counseling", "Therapy", "Diagnostics"];
@@ -16,9 +16,14 @@ export default function Footer() {
 
           {/* Left: Logo + description */}
           <div className="shrink-0 lg:w-72">
-            {/* Logo with white text name beside it */}
             <div className="flex items-center gap-3">
-              <Logo className="h-10 w-auto" />
+              <Image
+                src="/himawari-icon.png"
+                alt="Himawari icon"
+                width={44}
+                height={44}
+                className="h-11 w-11 rounded-xl object-cover"
+              />
               <span className="text-xl font-bold text-white">Himawari</span>
             </div>
             <p className="mt-4 text-sm leading-7 text-white/80">

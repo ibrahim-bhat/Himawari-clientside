@@ -10,7 +10,7 @@ export default function HeroSection() {
           alt="Mental health support"
           fill
           priority
-          className="object-cover object-center"
+          className="object-cover object-[center_20%]"
           sizes="100vw"
         />
       </div>
